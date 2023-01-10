@@ -1,18 +1,11 @@
-import React, { useEffect, useState } from 'react'
-
+import React from 'react'
+import { useFetch } from './hooks';
 
 const NEWS_PROXY_API = "https://news-proxy-230704.appspot.com";
 
 function Stories () {
-    const [stories,  setStories] = useState([])
 
-    useEffect(() => {
-        fetch(`${NEWS_PROXY_API}/topstories`)
-        .then(response => response.json()
-        .then(json => setStories(json)))
-        .catch(error => alert(`Error Occured in news-proxy-230704.appspot.com: ${error.message} `))
-    }, [])
-
+    const stories = useFetch(`${NEWS_PROXY_API}/topstories`, [])
     return (
         <div className='Stories'>
             <h3>Stories</h3>
