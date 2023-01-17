@@ -1,27 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import PICTURES from './data/pictures'
+import MATRIX_FRAME from './data/matrix'
 
-const SECONDS = 1000
-const MINIMUM_DELAY = 1 * 1000
+const MINIMUM_DELAY = 10
 const MINIMUM_INCREMENT = 1
 
-function Gallery() {
+function Matrix() {
     const [index, setIndex] = useState(0)
-    const [delay, setDelay] = useState(3 * SECONDS)
-    const [increment, setIncrement] = useState(1)
-    
+    const [delay, setDelay] = useState(500)
+    const [increment, setIncrement] = useState(5)
+
     useEffect(() => {
-        const interval = setInterval(() => {
-            setIndex(storedIndex => (storedIndex+increment)%PICTURES.length)
-        }, delay);
-
-        return () => {
-            clearInterval(interval)
-        }
+      const interval = setInterval(() => {
+        setIndex(storedIndex => (storedIndex+increment)%MATRIX_FRAME.length)
+      }, delay)
+    
+      return () => clearInterval(interval)
     }, [delay, increment])
-
+    
     const updateDelay = event => {
-        const delay = Number(event.target.value) * 1000
+        const delay = Number(event.target.value)
         setDelay(delay < MINIMUM_DELAY ? MINIMUM_DELAY : delay)
     }
 
@@ -29,17 +26,16 @@ function Gallery() {
         const increment = Number(e.target.value)
         setIncrement( increment < MINIMUM_INCREMENT ? MINIMUM_INCREMENT : increment)
     }
-
     return (
-        <div className='Gallery'>
-            <img src={PICTURES[index].image} alt="Gallery" />
+        <div className='Matrix'>
+            <img src={MATRIX_FRAME[index]} alt="matrix-animation" />
             <div className='multiform'>
                 <div>
-                    Gallery transition delay (seconds) :
+                    Frame transition delay (miliseconds) :
                     <input type="number" onChange={updateDelay} />
                 </div>
                 <div>
-                    Gallery Increment:
+                    Frame Increment:
                     <input type="number" onChange={updateIncrement} />
                 </div>
             </div>
@@ -47,4 +43,4 @@ function Gallery() {
     )
 }
 
-export default Gallery
+export default Matrix
